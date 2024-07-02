@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Details and Signature Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Patient Information</h2>
+        <p><strong>Name:</strong> {{ patient_details.name }}</p>
+        <p><strong>Age:</strong> {{ patient_details.age }}</p>
+        <p><strong>Gender:</strong> {{ patient_details.gender }}</p>
+        <p><strong>Condition:</strong> {{ patient_details.condition }}</p>
+        <p><strong>Contact:</strong> {{ patient_details.contact }}</p>
+        <p><strong>Medical History:</strong> {{ patient_details.history }}</p>
+
+        <h2>Message</h2>
+        <div class="code-block">{{ message }}</div>
+
+        <h2>SPHINCS+ Signature</h2>
+        <p><strong>Signature:</strong> {{ sphincs_signature }}</p>
+        <strong>Verification Result: <p class="result">{{ sphincs_verification_result }}</p> </strong>
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Time (µs)</th>
+            </tr>
+            <tr>
+                <td>Keypair Generation</td>
+                <td>{{ sphincs_keypair_generation_time }}</td>
+            </tr>
+            <tr>
+                <td>Signing</td>
+                <td>{{ sphincs_signing_time }}</td>
+            </tr>
+            <tr>
+                <td>Verification</td>
+                <td>{{ sphincs_verification_time }}</td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Size Metric</th>
+                <th>Size (KB)</th>
+            </tr>
+            <tr>
+                <td>Signature Size</td>
+                <td>{{ sphincs_signature_size_kb }}</td>
+            </tr>
+            <tr>
+                <td>Public Key Size</td>
+                <td>{{ sphincs_public_key_size_kb }}</td>
+            </tr>
+            <tr>
+                <td>Secret Key Size</td>
+                <td>{{ sphincs_secret_key_size_kb }}</td>
+            </tr>
+        </table>
+
+        <h2>Dilithium Signature</h2>
+        <p><strong>Signature:</strong> {{ dilithium_signature }}</p>
+        <strong>Verification Result: <p class = "result">{{ dilithium_verification_result }}</p> </strong>
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Time (µs)</th>
+            </tr>
+            <tr>
+                <td>Keypair Generation</td>
+                <td>{{ dilithium_keypair_generation_time }}</td>
+            </tr>
+            <tr>
+                <td>Signing</td>
+                <td>{{ dilithium_signing_time }}</td>
+            </tr>
+            <tr>
+                <td>Verification</td>
+                <td>{{ dilithium_verification_time }}</td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Size Metric</th>
+                <th>Size (KB)</th>
+            </tr>
+            <tr>
+                <td>Signature Size</td>
+                <td>{{ dilithium_signature_size_kb }}</td>
+            </tr>
+            <tr>
+                <td>Public Key Size</td>
+                <td>{{ dilithium_public_key_size_kb }}</td>
+            </tr>
+            <tr>
+                <td>Secret Key Size</td>
+                <td>{{ dilithium_secret_key_size_kb }}</td>
+            </tr>
+        </table>
+
+        <a href="/" class="btn">Back to Home</a>
+    </div>
+</body>
+</html>
+

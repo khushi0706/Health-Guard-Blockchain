@@ -1,0 +1,11 @@
+Parameters: n = 16, h = 66, d = 22, b = 6, k = 33, w = 16
+Running 10 iterations.
+Generating keypair.. avg.     2647.34 us (0.00 sec); median      5,551,528 cycles,      1x:      5,551,528 cycles
+  - WOTS pk gen 8x.. avg.     2637.74 us (0.00 sec); median      5,530,917 cycles,      1x:      5,530,917 cycles
+Signing..            avg.    26629.53 us (0.03 sec); median     51,387,052 cycles,      1x:     51,387,052 cycles
+  - FORS signing..   avg.     1851.65 us (0.00 sec); median      3,822,945 cycles,      1x:      3,822,945 cycles
+  - WOTS pk gen x8.. avg.     1077.08 us (0.00 sec); median      2,248,008 cycles,     22x:     49,456,176 cycles
+Verifying..          avg.     2075.46 us (0.00 sec); median      4,364,335 cycles,      1x:      4,364,335 cycles
+Signature size: 17088 (16.69 KiB)
+Public key size: 32 (0.03 KiB)
+Secret key size: 64 (0.06 KiB)

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Patient Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script>
+        let web3;
+        let contract;
+
+        window.addEventListener('load', async () => {
+            if (typeof window.ethereum !== 'undefined') {
+                console.log('MetaMask is installed!');
+                web3 = new Web3(window.ethereum);
+                try {
+                    await ethereum.request({ method: 'eth_requestAccounts' });  // Request account access
+                } catch (error) {
+                    console.error('User denied account access');
+                }
+
+                const contractABI = [
+                    {
+                        "constant": true,
+                        "inputs": [
+                            {
+                                "name": "",
+                                "type": "address"
+                            }
+                        ],
+                        "name": "patients",
+                        "outputs": [
+                            {
+                                "name": "name",
+                                "type": "string"
+                            },
+                            {
+                                "name": "age",
+                                "type": "uint256"
+                            },
+                            {
+                                "name": "gender",
+                                "type": "string"
+                            },
+                            {
+                                "name": "condition",
+                                "type": "string"
+                            },
+                            {
+                                "name": "contactNumber",
+                                "type": "string"
+                            },
+                            {
+                                "name": "medicalHistory",
+                                "type": "string"
+                            }
+                        ],
+                        "payable": false,
+                        "stateMutability": "view",
+                        "type": "function"
+                    },
+                    {
+                        "anonymous": false,
+                        "inputs": [
+                            {
+                                "indexed": true,
+                                "name": "patientAddress",
+                                "type": "address"
+                            },
+                            {
+                                "indexed": false,
+                                "name": "name",
+                                "type": "string"
+                            },
+                            {
+                                "indexed": false,
+                                "name": "age",
+                                "type": "uint256"
+                            },
+                            {
+                                "indexed": false,
+                                "name": "gender",
+                                "type": "string"
+                            },
+                            {
+                                "indexed": false,
+                                "name": "condition",
+                                "type": "string"
+                            },
+                            {
+                                "indexed": false,
+                                "name": "contactNumber",
+                                "type": "string"
+                            },
+                            {
+                                "indexed": false,
+                                "name": "medicalHistory",
+                                "type": "string"
+                            }
+                        ],
+                        "name": "PatientRegistered",
+                        "type": "event"
+                    },
+                    {
+                        "constant": false,
+                        "inputs": [
+                            {
+                                "name": "_name",
+                                "type": "string"
+                            },
+                            {
+                                "name": "_age",
+                                "type": "uint256"
+                            },
+                            {
+                                "name": "_gender",
+                                "type": "string"
+                            },
+                            {
+                                "name": "_condition",
+                                "type": "string"
+                            },
+                            {
+                                "name": "_contactNumber",
+                                "type": "string"
+                            },
+                            {
+                                "name": "_medicalHistory",
+                                "type": "string"
+                            }
+                        ],
+                        "name": "addPatient",
+                        "outputs": [],
+                        "payable": false,
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    }
+                ];
+
+                const contractAddress = '0x6Ae9f219B3ACF474038AE19aE5CF4967c0dd391a';
+                contract = new web3.eth.Contract(contractABI, contractAddress);
+            } else {
+                console.log('Please install MetaMask!');
+            }
+        });
+
+        async function submitData() {
+            const patientName = document.getElementById('patient_name').value.trim();
+            const patientAge = parseInt(document.getElementById('patient_age').value);
+            const patientGender = document.getElementById('patient_gender').value.trim();
+            const patientCondition = document.getElementById('patient_condition').value.trim();
+            const patientContact = document.getElementById('patient_contact').value.trim();
+            const patientHistory = document.getElementById('patient_history').value.trim();
+            const accounts = await web3.eth.getAccounts();
+
+            if (accounts.length === 0) {
+                console.error('No MetaMask account found');
+                alert('Please connect to MetaMask.');
+                return;
+            }
+
+            
+            if (!patientName || isNaN(patientAge) || !patientGender || !patientCondition || !patientContact || !patientHistory) {
+                console.error('All fields are required');
+                alert('All fields are required.');
+                return;
+            }
+
+            try {
+                
+                const receipt = await contract.methods.addPatient(patientName, patientAge, patientGender, patientCondition, patientContact, patientHistory).send({ from: accounts[0], gas: 2000000 });
+
+                console.log('Transaction Receipt:', receipt);
+		
+		const patientDetails = {
+                    name: patientName,
+                    age: patientAge,
+                    gender: patientGender,
+                    condition: patientCondition,
+                    contact: patientContact,
+                    history: patientHistory
+                };
+                
+                const response = await fetch('/store_patient_details', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(patientDetails)
+                });
+                
+                // Display the result upon successful transaction
+                document.getElementById('result').innerText = 'Patient details submitted successfully!';
+                
+                window.location.href = '/result';
+            } catch (error) {
+                console.error('Error submitting data:', error);
+                alert('Transaction failed. Check console for details.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Submit Patient Details</h1>
+        <form onsubmit="event.preventDefault(); submitData();">
+            <label for="patient_name">Patient Name:</label>
+            <input type="text" id="patient_name" placeholder="Enter patient name" required><br><br>
+
+            <label for="patient_age">Age:</label>
+            <input type="number" id="patient_age" placeholder="Enter patient age" required><br><br>
+
+            <label for="patient_gender">Gender:</label>
+            <input type="text" id="patient_gender" placeholder="Enter patient gender" required><br><br>
+
+            <label for="patient_condition">Condition:</label>
+            <input type="text" id="patient_condition" placeholder="Enter patient condition" required><br><br>
+
+            <label for="patient_contact">Contact Number:</label>
+            <input type="text" id="patient_contact" placeholder="Enter contact number" required><br><br>
+
+            <label for="patient_history">Medical History:</label>
+            <textarea id="patient_history" placeholder="Enter medical history" required></textarea><br><br>
+
+            <button type="submit">Submit to Blockchain</button>
+            <div id="result"></div>
+        </form>
+    </div>
+</body>
+</html>
+

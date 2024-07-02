@@ -1,0 +1,101 @@
+/* General body styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e0f7fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container styles */
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin: 20px;
+}
+
+/* Header styles */
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #00796b;
+    text-align: center;
+}
+
+/* Label styles */
+label {
+    font-size: 16px;
+    color: #00796b;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Input and textarea styles */
+input, textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #b2dfdb;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+input:focus, textarea:focus {
+    border-color: #00796b;
+    outline: none;
+}
+
+/* Button styles */
+button {
+    background-color: #00796b;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    box-sizing: border-box;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #004d40;
+}
+
+/* Result styles */
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #00796b;
+    text-align: center;
+}
+
+/* Additional styling */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type="text"], input[type="number"], textarea {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #aaa;
+}
+
